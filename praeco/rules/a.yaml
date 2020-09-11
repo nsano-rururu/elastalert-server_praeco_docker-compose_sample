@@ -1,0 +1,29 @@
+__praeco_query_builder: >-
+  {"query":{"logicalOperator":"all","children":[{"type":"query-builder-rule","query":{"rule":"message","selectedOperator":"contains","selectedOperand":"message","value":"Quit"}}]}}
+alert:
+  - email
+alert_subject: a
+alert_subject_args: []
+alert_text: b
+alert_text_args: []
+email:
+  - xxx@gmail.com
+filter:
+  - query:
+      query_string:
+        query: 'message:Quit'
+from_addr: xxx@gmail.com
+import: BaseRule.config
+index: mariadblog-*
+is_enabled: true
+name: a
+num_events: 1
+realert:
+  minutes: 1
+terms_size: 50
+timeframe:
+  minutes: 1
+timestamp_field: '@timestamp'
+timestamp_type: iso
+type: frequency
+use_strftime_index: false
