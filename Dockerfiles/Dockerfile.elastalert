@@ -1,11 +1,7 @@
-#FROM servercentral/elastalert:latest
-#FROM jfcantu/elastalert:v0.1.1
-#FROM johnsusek/elastalert-server:latest
 FROM praecoapp/elastalert-server:latest
 
 USER root
 
-#RUN apk add --update --no-cache net-snmp net-snmp-tools
 RUN apk update && \
     apk add vim bash curl && \
     rm -rf /var/cache/apk/*
