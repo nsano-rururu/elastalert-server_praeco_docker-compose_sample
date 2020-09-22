@@ -30,7 +30,6 @@ services:
     restart: always
     volumes:
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
-      - ./kibana/plugin:/usr/share/kibana/work
     healthcheck:
         test: ["CMD-SHELL", "curl -f http://localhost:5601/api/status || exit 1"]
         interval: 30s
