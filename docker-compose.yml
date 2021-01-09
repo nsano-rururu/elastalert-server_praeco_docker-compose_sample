@@ -42,7 +42,7 @@ services:
     image: fluentd:1.10.2
     build: ./fluentd/dockerfiles
     ports:
-       - 24224:24224
+      - 24224:24224
       - 24224:24224/udp
     environment:
       - FLUENTD_CONF=fluent.conf
