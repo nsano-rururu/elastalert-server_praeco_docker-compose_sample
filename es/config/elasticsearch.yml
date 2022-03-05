@@ -1,6 +1,6 @@
 cluster.name: "docker-cluster"
 network.host: 0.0.0.0
-discovery.zen.minimum_master_nodes: 1
+#discovery.zen.minimum_master_nodes: 1
 
 # ### x-pack functions
 # xpack.security.enabled: false
