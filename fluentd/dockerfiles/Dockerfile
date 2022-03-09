@@ -1,4 +1,4 @@
-FROM fluent/fluentd:v1.10.2-debian-1.0
+FROM fluent/fluentd:v1.14.5-debian-1.0
 
 # Use root account to use apt
 USER root
@@ -8,9 +8,9 @@ USER root
 RUN buildDeps="sudo make gcc g++ libc-dev" \
  && apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \
- && sudo gem install fluent-plugin-elasticsearch -v 4.0.7 \
+ && sudo gem install fluent-plugin-elasticsearch -v 5.2.0 \
  && sudo gem install fluent-plugin-mysqlslowquery -v 0.0.9 \
- && sudo gem install elasticsearch-xpack -v 7.6.0 \
+ && sudo gem install elasticsearch-xpack -v 7.17.1 \
  && sudo gem sources --clear-all \
  && SUDO_FORCE_REMOVE=yes \
     apt-get purge -y --auto-remove \
