@@ -10,7 +10,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev" \
  && apt-get install -y --no-install-recommends $buildDeps \
  && sudo gem install fluent-plugin-elasticsearch -v 5.2.0 \
  && sudo gem install fluent-plugin-mysqlslowquery -v 0.0.9 \
- && sudo gem install elasticsearch-xpack -v 7.17.1 \
+ && sudo gem install elasticsearch -v 8.1.2 \
  && sudo gem sources --clear-all \
  && SUDO_FORCE_REMOVE=yes \
     apt-get purge -y --auto-remove \
