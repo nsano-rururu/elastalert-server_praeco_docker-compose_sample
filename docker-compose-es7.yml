@@ -1,0 +1,119 @@
+version: "3.7"
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.1
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    restart: always
+    volumes:
+      - ./es/data:/usr/share/elasticsearch/data
+      - ./es/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    healthcheck:
+        test: ["CMD-SHELL", "curl -f http://localhost:9200 || exit 1"]
+        interval: 30s
+        timeout: 15s
+        retries: 3
+        start_period: 180s
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.17.1
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    restart: always
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    healthcheck:
+        test: ["CMD-SHELL", "curl -f http://localhost:5601/api/status || exit 1"]
+        interval: 30s
+        timeout: 15s
+        retries: 3
+        start_period: 200s
+ 
+  fluentd:
+    container_name: fluentd
+    image: fluentd:1.14.5
+    build: ./fluentd/dockerfiles
+    ports:
+      - 24224:24224
+      - 24224:24224/udp
+    environment:
+      - FLUENTD_CONF=fluent.conf
+    volumes:
+      - ./fluentd/etc/fluent.conf:/fluentd/etc/fluent.conf
+      - ./fluentd/etc/mysql_template.json:/fluentd/etc/mysql_template.json
+      - ./mariadb/log:/var/log/mysql
+    user: root
+    restart: unless-stopped
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb:10.4.11
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=mariadb
+    volumes:
+      - ./mariadb/etc:/etc/mysql/conf.d
+      - ./mariadb/log:/var/log/mysql
+    restart: unless-stopped
+    user: root
+    healthcheck:
+        test: ["CMD-SHELL", "mysqladmin -h 'localhost' -u root -pmariadb ping --silent"]
+        interval: 30s
+        timeout: 30s
+        retries: 3
+
+  elastalert:
+    container_name: elastalert
+    build:
+      context: .
+      dockerfile: Dockerfiles/Dockerfile.elastalert
+    image: elastalert-server:3.0.0
+    ports:
+      - 3030:3030
+      - 3333:3333
+    depends_on:
+      - elasticsearch
+    restart: always
+    volumes:
+      - ./praeco/config/elastalert.yaml:/opt/elastalert/config.yaml
+      - ./praeco/config/api.config.json:/opt/elastalert-server/config/config.json
+      - ./praeco/rules:/opt/elastalert/rules
+      - ./praeco/rule_templates:/opt/elastalert/rule_templates
+      - ./praeco/pass/smtp_auth_user.yaml:/opt/elastalert/pass/smtp_auth_user.yaml
+    healthcheck:
+        test: ["CMD-SHELL", "curl -f http://localhost:3030 || exit 1"]
+        interval: 30s
+        timeout: 15s
+        retries: 3
+        start_period: 200s
+
+  praeco:
+    container_name: praeco
+    image: praecoapp/praeco:latest
+    ports:
+      - 8080:8080
+    depends_on:
+      - elastalert
+    restart: always
+    volumes:
+      - ./praeco/public/praeco.config.json:/var/www/html/praeco.config.json
+      - ./praeco/nginx_config/nginx.conf:/etc/nginx/nginx.conf
+      - ./praeco/nginx_config/default.conf:/etc/nginx/conf.d/default.conf
+    healthcheck:
+        test: ["CMD-SHELL", "curl -f http://localhost:8080 || exit 1"]
+        interval: 30s
+        timeout: 15s
+        retries: 3
+        start_period: 200s
+
+  
