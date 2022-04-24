@@ -40,7 +40,7 @@ services:
  
   fluentd:
     container_name: fluentd
-    image: fluentd:1.14.5
+    image: fluentd:1.14.6
     build: ./fluentd/dockerfiles
     ports:
       - 24224:24224
