@@ -99,7 +99,7 @@ services:
 
   praeco:
     container_name: praeco
-    image: praecoapp/praeco:latest
+    image: praecoapp/praeco:1.8.11
     ports:
       - 8080:8080
     depends_on:
