@@ -1,4 +1,4 @@
-FROM praecoapp/elastalert-server:latest
+FROM praecoapp/elastalert-server:20221204
 
 USER root
 
