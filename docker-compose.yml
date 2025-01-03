@@ -2,7 +2,7 @@ version: "3.7"
 services:
   elasticsearch:
     container_name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
     ports:
       - 9200:9200
       - 9300:9300
@@ -23,7 +23,7 @@ services:
 
   kibana:
     container_name: kibana
-    image: docker.elastic.co/kibana/kibana:8.11.0
+    image: docker.elastic.co/kibana/kibana:8.17.0
     ports:
       - 5601:5601
     depends_on:
@@ -99,7 +99,7 @@ services:
 
   praeco:
     container_name: praeco
-    image: praecoapp/praeco:1.8.12
+    image: praecoapp/praeco:1.8.20
     ports:
       - 8080:8080
     depends_on:
