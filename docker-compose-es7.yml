@@ -48,7 +48,7 @@ services:
     environment:
       - FLUENTD_CONF=fluent.conf
     volumes:
-      - ./fluentd/etc/fluent.conf:/fluentd/etc/fluent.conf
+      - ./fluentd/etc/fluent_es7.conf:/fluentd/etc/fluent.conf
       - ./fluentd/etc/mysql_template.json:/fluentd/etc/mysql_template.json
       - ./mariadb/log:/var/log/mysql
     user: root
