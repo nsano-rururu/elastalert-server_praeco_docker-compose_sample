@@ -1,4 +1,3 @@
-version: "3.7"
 services:
   elasticsearch:
     container_name: elasticsearch
@@ -40,7 +39,7 @@ services:
  
   fluentd:
     container_name: fluentd
-    image: fluentd:1.15.3
+    image: fluentd:1.19.1
     build: ./fluentd/dockerfiles
     ports:
       - 24224:24224
