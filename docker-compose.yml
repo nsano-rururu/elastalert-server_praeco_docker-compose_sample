@@ -88,7 +88,7 @@ services:
       - ./praeco/config/api.config.json:/opt/elastalert-server/config/config.json
       - ./praeco/rules:/opt/elastalert/rules
       - ./praeco/rule_templates:/opt/elastalert/rule_templates
-      - ./praeco/pass/smtp_auth_user.yaml:/opt/elastalert/pass/smtp_auth_user.yaml
+      #- ./praeco/pass/smtp_auth_user.yaml:/opt/elastalert/pass/smtp_auth_user.yaml
     healthcheck:
         test: ["CMD-SHELL", "curl -f http://localhost:3030 || exit 1"]
         interval: 30s
