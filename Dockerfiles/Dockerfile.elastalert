@@ -9,9 +9,12 @@ RUN apk update && \
 ADD praeco/bin/elastalert-start.sh /usr/local/bin/
 ADD praeco/bin/elastic_search_status.sh /usr/local/bin/
 
-RUN chmod +x /usr/local/bin/elastalert-start.sh 
-RUN chmod +x /usr/local/bin/elastic_search_status.sh
+RUN sed -i 's/\r$//' \
+    /usr/local/bin/elastalert-start.sh \
+    /usr/local/bin/elastic_search_status.sh
 
-USER node
+RUN chmod +x \
+    /usr/local/bin/elastalert-start.sh \
+    /usr/local/bin/elastic_search_status.sh
 
 ENTRYPOINT ["/usr/local/bin/elastalert-start.sh"]
